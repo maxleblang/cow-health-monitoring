@@ -50,7 +50,7 @@ def create_rolling_window_data(sensor_data_df, behavior_labels_df, window_size =
 
     # Get base time difference size
     # Use 3 and 2 in case there is a problem with the first index
-    groundtruth_base_time = behavior_labels_df['Unixtime'][4] - behavior_labels_df['Unixtime'][3]
+    groundtruth_base_time = behavior_labels_df['timestamp'][4] - behavior_labels_df['timestamp'][3]
     # print("Base time is: " + str(groundtruth_base_time))
     input_base_time = sensor_data_df['timestamp'][4] - sensor_data_df['timestamp'][3]
 
@@ -60,11 +60,11 @@ def create_rolling_window_data(sensor_data_df, behavior_labels_df, window_size =
     # Get grountruths in time window
     X,y = [], []
 
-    for start_time in np.arange(behavior_labels_df.iloc[0]['Unixtime'],behavior_labels_df.iloc[-1]['Unixtime'], stride_time):
+    for start_time in np.arange(behavior_labels_df.iloc[0]['timestamp'],behavior_labels_df.iloc[-1]['timestamp'], stride_time):
         end_time = start_time + window
         # Groundtruth is given in one minute time windows, so split input data every minute
-        behavior_labels_data_for_time_window = behavior_labels_df.loc[(behavior_labels_df['Unixtime'] >= start_time) & (
-            behavior_labels_df['Unixtime'] < end_time)]
+        behavior_labels_data_for_time_window = behavior_labels_df.loc[(behavior_labels_df['timestamp'] >= start_time) & (
+            behavior_labels_df['timestamp'] < end_time)]
         
         # Check to make sure this isn't a transition period
         # also get rid of unknown behavior (0)
