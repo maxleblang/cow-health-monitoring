@@ -10,8 +10,7 @@ import numpy as np
 import pywt
 import seaborn as sns
 
-from utils.load_data_utils import load_to_df, create_rolling_window_data
-from utils.features_utils import add_svm_feature
+from load_data_utils import load_to_df, create_rolling_window_data
 from models import CNN, CNN2D, multihead_CNN
 from tensorflow.keras.utils import to_categorical
 from tensorflow.keras.callbacks import EarlyStopping
@@ -257,7 +256,6 @@ def run_exp(repeats=3):
         uwb_X_test = np.array([])
         y_test = np.array([])
 
-        # Make sure we're only validating with one group of tags
         for test_tag in test_tuple:
             # Add sensor data
             if accel_X_test.shape[0] == 0:
