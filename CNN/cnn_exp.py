@@ -128,12 +128,12 @@ def run_exp(repeats=3):
 
         # Get all accelerometer sensor data files for this folder
         accel_filepaths = os.listdir(accel_data_dir)
-        accel_filepaths = [accel_data_dir + file for file in accel_filepaths if file.startswith('sensor_data') and file.endswith('0725.csv')]
+        accel_filepaths = [accel_data_dir + file for file in accel_filepaths if file.endswith('0725.csv')]
         accel_filepaths.sort() # Make sure they're in order for processing
 
         # Get all UWB sensor data files for this folder
         uwb_filepaths = os.listdir(uwb_data_dir)
-        uwb_filepaths = [uwb_data_dir + file for file in uwb_filepaths if file.startswith('uwb_loc') and file.endswith('0725.csv')]
+        uwb_filepaths = [uwb_data_dir + file for file in uwb_filepaths if file.endswith('0725.csv')]
         uwb_filepaths.sort() # Make sure they're in order for processing
         
         # Get groundtruth path
