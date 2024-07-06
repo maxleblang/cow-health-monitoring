@@ -140,8 +140,8 @@ def run_exp(repeats=3):
         groundtruth_path = labels_dir + 'C' + str(tag).zfill(2) + '_0725.csv'
 
         # Load in both sensor data
-        accel_input_df, groundtruth_df = load_to_df(accel_filepaths, groundtruth_path)
-        uwb_input_df, _ = load_to_df(uwb_filepaths, groundtruth_path)
+        accel_input_df, groundtruth_df = load_to_df(accel_filepaths, groundtruth_path, standardized_delta=0.1)
+        uwb_input_df, _ = load_to_df(uwb_filepaths, groundtruth_path, standardized_delta=0.1)
 
         # Convert uwb from cm to m
         uwb_input_df['coord_x_cm'] = uwb_input_df['coord_x_cm']/100
