@@ -125,7 +125,6 @@ def run_exp(repeats=3):
         # Build folder path
         accel_data_dir = accel_dir + 'T' + str(tag).zfill(2) + '/'
         uwb_data_dir = uwb_dir + 'T' + str(tag).zfill(2) + '/'
-        groundtruth_dir = 'behavior_analysis/individual_behaviors/'
 
         # Get all accelerometer sensor data files for this folder
         accel_filepaths = os.listdir(accel_data_dir)
@@ -138,7 +137,7 @@ def run_exp(repeats=3):
         uwb_filepaths.sort() # Make sure they're in order for processing
         
         # Get groundtruth path
-        groundtruth_path = groundtruth_dir + 'C' + str(tag).zfill(2) + '_0725.csv'
+        groundtruth_path = labels_dir + 'C' + str(tag).zfill(2) + '_0725.csv'
 
         # Load in both sensor data
         accel_input_df, groundtruth_df = load_to_df(accel_filepaths, groundtruth_path)
