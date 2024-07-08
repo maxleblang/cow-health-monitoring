@@ -30,7 +30,7 @@ def load_to_df(input_filenames, output_filename, standardized_delta = None, pref
     timestamp_range = np.round(timestamp_range,1)
     # Add existing data to the full df
     standardized_sensor_data = DataFrame(timestamp_range,columns=['timestamp'])
-    standardized_sensor_data = merge(standardized_sensor_data,input_data, how='outer', on='timestamp')
+    standardized_sensor_data = merge(standardized_sensor_data,input_data, how='left', on='timestamp')
     # Fill the data with ffil
     standardized_sensor_data.ffill(inplace=True)
 
