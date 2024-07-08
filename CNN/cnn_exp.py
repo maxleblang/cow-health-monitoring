@@ -1,7 +1,6 @@
 import os
 import os.path
-import logging
-logging.getLogger('tensorflow').disabled = True
+os.environ['TF_CPP_MIN_LOG_LEVEL'] = '3'
 
 from numpy import mean
 from sklearn.metrics import confusion_matrix
