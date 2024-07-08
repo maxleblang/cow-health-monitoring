@@ -17,13 +17,13 @@ def load_to_df(input_filenames, output_filename, standardized_delta = None, pref
     timestamps to make sure maintain a standard number of samples per minute
     '''
 
+    # Get start and end timestamps
+    start_timestamp = input_data.iloc[0]['timestamp']
+    end_timestamp = input_data.iloc[-1]['timestamp']
     # Sets a standard delta between sensors so we can upsample UWB
     if standardized_delta:
         delta = standardized_delta
     else:
-        # Get start and end timestamps
-        start_timestamp = input_data.iloc[0]['timestamp']
-        end_timestamp = input_data.iloc[-1]['timestamp']
         delta = input_data.iloc[1]['timestamp'] - input_data.iloc[0]['timestamp']
 
     timestamp_range = np.arange(start_timestamp,end_timestamp+delta,delta)
