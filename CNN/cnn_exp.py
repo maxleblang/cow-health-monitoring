@@ -1,5 +1,7 @@
 import os
 import os.path
+import logging
+logging.getLogger('tensorflow').disabled = True
 
 from numpy import mean
 from sklearn.metrics import confusion_matrix
