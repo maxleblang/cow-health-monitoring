@@ -25,6 +25,8 @@ uwb_dir = Config.UWB_DATA_DIR
 labels_dir = Config.BEHAVIOR_LABELS_DATA_DIR
 data_bin_dir = Config.NUMPY_DATA_BIN_PATH
 
+NUM_CLASSES = 4
+
 gpu_config = ConfigProto()
 gpu_config.gpu_options.allow_growth = True
 session = InteractiveSession(config=gpu_config)
@@ -65,7 +67,7 @@ def get_class_accuracies(model, accel_testX, uwb_testX, testy):
     y_pred_classes = np.argmax(y_pred, axis=1)
     y_test_classes = np.argmax(testy, axis=1)
 
-    conf_matrix = confusion_matrix(y_test_classes, y_pred_classes, labels=range(7))
+    conf_matrix = confusion_matrix(y_test_classes, y_pred_classes, labels=range(NUM_CLASSES))
 
     num_classes = conf_matrix.shape[0]
     acc_per_class = np.zeros(num_classes)
@@ -178,7 +180,7 @@ def run_exp(repeats=3):
     # Loop through every test tag to train on all other data and test on this one
     print("\nTESTING")
 
-    overall_class_accuracies = np.zeros(7)
+    overall_class_accuracies = np.zeros(NUM_CLASSES)
     for test_tuple in test_tags:
         print(f"\nTesting on tag group of {str(test_tuple)}")
 
@@ -211,7 +213,7 @@ def run_exp(repeats=3):
                 y_train = np.concatenate((y_train, behavior_label[train_tag]))
                 
         # One-hot encoding
-        y_train = to_categorical(y_train - 1, num_classes = 7)
+        y_train = to_categorical(y_train - 1, num_classes = NUM_CLASSES)
 
 
         '''
@@ -244,7 +246,7 @@ def run_exp(repeats=3):
                 y_val = np.concatenate((y_val, behavior_label[val_tag]))
                 
         # One-hot encoding
-        y_val = to_categorical(y_val - 1, num_classes = 7)
+        y_val = to_categorical(y_val - 1, num_classes = NUM_CLASSES)
 
 
         '''
@@ -272,7 +274,7 @@ def run_exp(repeats=3):
                 y_test = np.concatenate((y_test, behavior_label[test_tag]))
                 
         # One-hot encoding
-        y_test = to_categorical(y_test - 1, num_classes = 7)
+        y_test = to_categorical(y_test - 1, num_classes = NUM_CLASSES)
 
         # BANDAID FIX for if number of samples is different
         train_size = min(uwb_X_train.shape[0],accel_X_train.shape[0])
@@ -306,12 +308,12 @@ def run_exp(repeats=3):
         # Class balancing
         true_labels_train = np.argmax(y_train, axis=1)
         class_weights = compute_class_weight('balanced', classes=np.unique(true_labels_train), y=true_labels_train)
-        class_weights_dict = {i: weight/7 for i, weight in enumerate(class_weights)}
+        class_weights_dict = {i: weight/NUM_CLASSES for i, weight in enumerate(class_weights)}
 
 
         accuracies = list()
         f1_scores = list()
-        class_accuracies = np.zeros(7)
+        class_accuracies = np.zeros(NUM_CLASSES)
         print('      F1    \tAcc')
         for r in range(repeats):
             acc, f1_score, class_acc = build_multihead_model((accel_X_train, uwb_X_train, y_train),
@@ -333,7 +335,7 @@ def run_exp(repeats=3):
         overall_class_accuracies += class_accuracies
 
 
-    for class_i, acc in zip(range(7), overall_class_accuracies):
+    for class_i, acc in zip(range(NUM_CLASSES), overall_class_accuracies):
         print('Class %d: %.3f' % (class_i+1, acc))
 
 

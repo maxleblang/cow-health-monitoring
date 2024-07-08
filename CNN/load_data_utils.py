@@ -95,8 +95,14 @@ def create_rolling_window_data(sensor_data_df, behavior_labels_df, window_size =
         # Add X data
         X.append(sensor_data_list)
 
+        # Adjust labels
+        label = a[0]
+        if label == 1 or label == 5:
+            label = 2
+        elif label == 4:
+            label = 3
         # Add y data
-        y.append(a[0])
+        y.append(label)
         
 
     return np.array(X),np.array(y)
