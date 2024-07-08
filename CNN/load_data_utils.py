@@ -96,11 +96,19 @@ def create_rolling_window_data(sensor_data_df, behavior_labels_df, window_size =
         X.append(sensor_data_list)
 
         # Adjust labels
+        # 1 - standing (walking, standing, licking)
+        # 2 - feeding (feeding head up, feeding head down)
+        # 3 - drinking
+        # 4 - lying
         label = a[0]
-        if label == 1 or label == 5:
+        if label == 1 or label == 2 or label == 5:
+            label = 1
+        elif label == 3 or label == 4:
             label = 2
-        elif label == 4:
+        elif label == 6:
             label = 3
+        elif label == 7:
+            label = 4
         # Add y data
         y.append(label)
         
